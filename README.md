@@ -6,6 +6,6 @@ Hello. this application allows you to Edit ARC file professionally, faster, smoo
 
 - DescZ : Developer 
 
-EternalModz : Helper
+- EternalModz : Helper
 
-PhoenixARC : Source code 
+- PhoenixARC : Source code 
