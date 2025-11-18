@@ -35,19 +35,19 @@
             // loadingLabel
             // 
             this.loadingLabel.AutoSize = true;
-            this.loadingLabel.Location = new System.Drawing.Point(12, 37);
+            this.loadingLabel.Location = new System.Drawing.Point(12, 41);
             this.loadingLabel.Name = "loadingLabel";
-            this.loadingLabel.Size = new System.Drawing.Size(72, 13);
+            this.loadingLabel.Size = new System.Drawing.Size(90, 13);
             this.loadingLabel.TabIndex = 1;
-            this.loadingLabel.Text = "Opening file...";
+            this.loadingLabel.Text = "Opening the file...";
             this.loadingLabel.Click += new System.EventHandler(this.loadingLabel_Click);
             // 
             // flatProgressBar1
             // 
-            this.flatProgressBar1.Location = new System.Drawing.Point(17, 62);
+            this.flatProgressBar1.Location = new System.Drawing.Point(17, 66);
             this.flatProgressBar1.MarqueeAnimationSpeed = 25;
             this.flatProgressBar1.Name = "flatProgressBar1";
-            this.flatProgressBar1.Size = new System.Drawing.Size(427, 14);
+            this.flatProgressBar1.Size = new System.Drawing.Size(427, 10);
             this.flatProgressBar1.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
             this.flatProgressBar1.TabIndex = 2;
             // 
@@ -62,6 +62,7 @@
             this.Controls.Add(this.flatProgressBar1);
             this.Controls.Add(this.loadingLabel);
             this.Cursor = System.Windows.Forms.Cursors.AppStarting;
+            this.DoubleBuffered = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "LoadingForm";
@@ -69,7 +70,7 @@
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "ARC Studio";
+            this.Text = " ARC Studio";
             this.Load += new System.EventHandler(this.LoadingForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -45,7 +45,6 @@
             // 
             // duohnRabql
             // 
-            this.duohnRabql.Alignment = System.Windows.Forms.ListViewAlignment.Default;
             this.duohnRabql.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.duohnRabql.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.duohnRabql.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -53,6 +52,7 @@
             this.duohnRabql.Dock = System.Windows.Forms.DockStyle.Left;
             this.duohnRabql.ForeColor = System.Drawing.Color.White;
             this.duohnRabql.FullRowSelect = true;
+            this.duohnRabql.GridLines = true;
             this.duohnRabql.HideSelection = false;
             this.duohnRabql.Location = new System.Drawing.Point(0, 24);
             this.duohnRabql.Name = "duohnRabql";
@@ -71,7 +71,6 @@
             // 
             this.lvMessages.Alignment = System.Windows.Forms.ListViewAlignment.Default;
             this.lvMessages.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.lvMessages.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lvMessages.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader_1,
             this.columnHeader_2});
@@ -80,9 +79,10 @@
             this.lvMessages.ForeColor = System.Drawing.Color.White;
             this.lvMessages.FullRowSelect = true;
             this.lvMessages.HideSelection = false;
+            this.lvMessages.HoverSelection = true;
             this.lvMessages.Location = new System.Drawing.Point(0, 0);
             this.lvMessages.Name = "lvMessages";
-            this.lvMessages.Size = new System.Drawing.Size(677, 304);
+            this.lvMessages.Size = new System.Drawing.Size(677, 265);
             this.lvMessages.TabIndex = 5;
             this.lvMessages.UseCompatibleStateImageBehavior = false;
             this.lvMessages.View = System.Windows.Forms.View.Details;
@@ -100,10 +100,8 @@
             // 
             // tbMessage
             // 
-            this.tbMessage.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.tbMessage.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystem;
             this.tbMessage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(25)))), ((int)(((byte)(25)))));
-            this.tbMessage.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tbMessage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tbMessage.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.tbMessage.ForeColor = System.Drawing.Color.White;
             this.tbMessage.Location = new System.Drawing.Point(0, 322);
@@ -156,7 +154,7 @@
             // panel2
             // 
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(0, 304);
+            this.panel2.Location = new System.Drawing.Point(0, 265);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(677, 10);
             this.panel2.TabIndex = 10;

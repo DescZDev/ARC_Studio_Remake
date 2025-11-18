@@ -455,6 +455,8 @@ namespace DarkModeForms
 		/// <param name="control">Can be a Form or any Winforms Control.</param>
 		public void ThemeControl(Control control)
 		{
+			try 
+				{
 			var info = controlStatusStorage.GetControlStatusInfo(control);
 			if (info != null)
 			{
@@ -810,6 +812,7 @@ namespace DarkModeForms
 				}
 
 			}
+
 			if (control is TreeView)
 			{
 				control.GetType().GetProperty("BorderStyle")?.SetValue(control, BorderStyle.None);
@@ -898,7 +901,11 @@ namespace DarkModeForms
 				// Recursively process its children
 				ThemeControl(childControl);
 			}
+		
+			
 		}
+		catch { }
+			}
 
 		/// <summary>
 		/// Registers the Control as processed. Prevents applying theme to the Control.

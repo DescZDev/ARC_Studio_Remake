@@ -48,6 +48,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>arc.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="DiscordRPC, Version=1.6.1.70, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\DiscordRichPresence.1.6.1.70\lib\net45\DiscordRPC.dll</HintPath>
@@ -90,6 +93,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="DMF\Messenger.cs" />
+    <Compile Include="EnchUI\ImageViewer.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="LoadingForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -159,6 +165,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="arc.ico" />
     <Content Include="MetroFramework.txt" />
     <None Include="Resources\IMAGE ICON.png" />
     <None Include="Resources\ZZFolder.png" />

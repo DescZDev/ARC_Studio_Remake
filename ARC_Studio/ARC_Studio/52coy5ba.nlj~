@@ -17,7 +17,6 @@ namespace ARC_Studio
     public partial class ARCStudio : Form
     {
         private DarkModeCS dm = null;
-        private Image loadedImage;
 
         public ARCStudio()
         {
@@ -35,7 +34,7 @@ namespace ARC_Studio
                 Visible = false
             };
 
-            //basePic.Visible = false;
+            basePic.Visible = false;
             this.Controls.Add(viewer);
             viewer.BringToFront();
 
@@ -44,7 +43,6 @@ namespace ARC_Studio
             dm = new DarkModeCS(this)
             {
                 ColorMode = DarkModeCS.DisplayMode.DarkMode
-
             };
         }
 
@@ -178,29 +176,31 @@ namespace ARC_Studio
             }
         }
 
+        private void pictureBoxWithInterpolationMode2_Paint(object sender, PaintEventArgs e)
+        {
+            if (pictureBoxWithInterpolationMode2.Image == null) return;
+            e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+            e.Graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+            e.Graphics.CompositingQuality = CompositingQuality.HighQuality;
+        }
+
         private async void saveToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             DisposeImages();
 
-            using (var loading = new LoadingForm("Saving file..."))
+            await FakeProgress("Saving file...");
+            try
             {
-                try
-                {
-                    loading.Show(this);
-                    loading.Refresh();
-                    ARC_Studio.Workers.ARC.PS3ARCWorker ps3ARCWorker = new ARC_Studio.Workers.ARC.PS3ARCWorker();
-                    ps3ARCWorker.BuildArchive(arcfile, appdata);
-                    saved = true;
-                    SizeLabel1.Text = "Saved Successfully!";
-                }
-                catch (Exception err)
-                {
-                    MessageBox.Show("Error: " + err.Message);
-                    SizeLabel1.Text = "Save failed!";
-                    saved = false;
-                }
-                await Task.Delay(500);
-                loading.Close();
+                ARC_Studio.Workers.ARC.PS3ARCWorker ps3ARCWorker = new ARC_Studio.Workers.ARC.PS3ARCWorker();
+                ps3ARCWorker.BuildArchive(arcfile, appdata);
+                saved = true;
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show("Error: " + err.Message);
+                SizeLabel1.Text = "Save failed!";
+                saved = false;
             }
         }
 
@@ -587,8 +587,7 @@ namespace ARC_Studio
         {
             try
             {
-                if (EntryList.SelectedNode == null || EntryList.SelectedNode.Tag == null)
-                    return;
+                if (EntryList.SelectedNode == null || EntryList.SelectedNode.Tag == null) return;
 
                 string selectedPath = EntryList.SelectedNode.Tag.ToString();
                 string ext = Path.GetExtension(selectedPath).ToLowerInvariant();
@@ -600,16 +599,11 @@ namespace ARC_Studio
                     if (viewer != null)
                     {
                         viewer.Visible = true;
-
-                        using (FileStream fs = new FileStream(selectedPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-                        using (Image img = Image.FromStream(fs))
-                        {
-                            viewer.SetImage(new Bitmap(img));
-                            SizeLabel1.Text = $"{img.Width} x {img.Height}";
-                        }
+                        viewer.SetImage(Image.FromFile(selectedPath));
                     }
 
                     statusStrip1.Visible = true;
+                    viewer.Visible = true;
                     SizeLabel1.Visible = true;
                     richTextBox1.Hide();
                     tabControl1.Hide();
@@ -620,17 +614,31 @@ namespace ARC_Studio
                     using (FileStream fs = new FileStream(selectedPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                     using (Image skinPicture = Image.FromStream(fs))
                     {
-                        if (loadedImage != null)
-                            loadedImage.Dispose(); // ensure old one is freed
-
-                        loadedImage = new Bitmap(skinPicture);
                         pictureBoxWithInterpolationMode2.Image?.Dispose();
-                        pictureBoxWithInterpolationMode2.Image = new Bitmap(loadedImage);
+                        
+                        pictureBoxWithInterpolationMode2.Image = new Bitmap(skinPicture);
+
+                        // Resize preview to fit half the tab page while keeping aspect ratio
+                        Size maxDisplay = new Size(tabPage1.ClientSize.Width / 2 - 5, tabPage1.ClientSize.Height / 2 - 5);
+
+                        int newWidth = skinPicture.Width;
+                        int newHeight = skinPicture.Height;
+
+                        if (newWidth > maxDisplay.Width)
+                        {
+                            float ratio = (float)skinPicture.Height / skinPicture.Width;
+                            newWidth = maxDisplay.Width;
+                            newHeight = (int)(newWidth * ratio);
+                        }
+                        if (newHeight > maxDisplay.Height)
+                        {
+                            float ratio = (float)skinPicture.Width / skinPicture.Height;
+                            newHeight = maxDisplay.Height;
+                            newWidth = (int)(newHeight * ratio);
+                        }
+                        pictureBoxWithInterpolationMode2.Size = new Size(Math.Max(1, newWidth), Math.Min(1, newHeight));
                     }
-
-
                 }
-
                 else if (ext == ".txt")
                 {
                     richTextBox1.Show();
@@ -638,7 +646,6 @@ namespace ARC_Studio
                     tabControl1.Show();
                     pictureBoxWithInterpolationMode2.Hide();
                     richTextBox1.Text = File.ReadAllText(selectedPath);
-                    return;
                 }
                 else if (Directory.Exists(selectedPath))
                 {
@@ -647,7 +654,6 @@ namespace ARC_Studio
                     pictureBoxWithInterpolationMode2.Hide();
                     tabControl1.Hide();
                     statusStrip1.Visible = false;
-                    return;
                 }
                 else
                 {
@@ -677,12 +683,6 @@ namespace ARC_Studio
             try
             {
                 if (pictureBoxWithInterpolationMode2.Image != null)
-                {
-                    pictureBoxWithInterpolationMode2.Image.Dispose();
-                    pictureBoxWithInterpolationMode2.Image = null;
-                }
-
-                if (loadedImage != null)
                 {
                     pictureBoxWithInterpolationMode2.Image.Dispose();
                     pictureBoxWithInterpolationMode2.Image = null;
@@ -824,7 +824,7 @@ namespace ARC_Studio
                         try
                         {
                             CopyDirectory(sourceDir, targetDir);
-                            Messenger.MessageBox($"Folder extracted successfully to:\n{targetDir}");
+                            MessageBox.Show($"Folder extracted successfully to:\n{targetDir}");
                         }
                         catch (Exception ex)
                         {
@@ -853,6 +853,9 @@ namespace ARC_Studio
                         break;
                     case ".col":
                         sfd.Filter = "Color file | *.col";
+                        break;
+                    case ".binka":
+                        sfd.Filter = "Binka Audio | *.binka";
                         break;
                     case "":
                         sfd.Filter = "NBT Data | *.nbt";
@@ -938,6 +941,9 @@ namespace ARC_Studio
                     case ".col":
                         sfd.Filter = "Color file | *.col";
                         break;
+                    case ".binka":
+                        sfd.Filter = "Binka Audio | *.binka";
+                        break;
                     case "":
                         sfd.Filter = "NBT Data | *.nbt";
                         break;
@@ -976,6 +982,7 @@ namespace ARC_Studio
         private void SizeLabel1_Click(object sender, EventArgs e) { }
 
         private void menuStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e) { }
+
 
 
         private async Task FakeProgress(string actMessage = "Processing...", int delayMS = 30)
