@@ -5,7 +5,7 @@ An all-in-one, open-source studio for editing Minecraft Legacy (PS3) ARC files.
 ## Features
 
 *   **User-Friendly UI:** Intuitive interface designed for both beginners and advanced users.
-*   **All-in-One Workflow:** Edit both ARC archives and LOC languages.loc files in a single application.
+*   **All-in-One Workflow:** Edit both ARC archives and LOC languages.loc and FUI files in a single application.
 *   **Robust & Safe:** Built-in backup options and validation to prevent save corruption.
 *   **Optimized Performance:** Handles large game files efficiently.
 
@@ -30,6 +30,7 @@ Head to the [Releases](https://github.com/DescZDev/ARC_Studio_Remake/releases) p
 *   **DescZ:** Developer
 *   **EternalModz:** Helper
 *   **PhoenixARC:** Source code
+*   **Kzpns:** FUI source code
 
 ## License
 
