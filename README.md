@@ -25,6 +25,9 @@ Head to the [Releases](https://github.com/DescZDev/ARC_Studio_Remake/releases) p
 3.  Drag and drop your `arc` file into the window.
 4.  Make your edits and save!
 
+5.  ![1000088397](https://github.com/user-attachments/assets/06dcf2ae-3ef8-4b82-84ba-64eacbd8e660)
+
+
 ## Credits
 
 *   **DescZ:** Developer
