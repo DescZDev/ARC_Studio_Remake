@@ -9,10 +9,10 @@ An all-in-one, open-source studio for editing Minecraft Legacy (PS3) ARC files.
 *   **Robust & Safe:** Built-in backup options and validation to prevent save corruption.
 *   **Optimized Performance:** Handles large game files efficiently.
 
-## System Requirements
+## Recommended Requirements
 
 * Windows 10/11
-* x64/x32 Processor
+* x64/x32 Processor (Any could also work)
 
 ## Download
 
